@@ -1,5 +1,6 @@
-import 'package:designs/src/pages/headers_page.dart';
 import 'package:flutter/material.dart';
+
+import 'package:designs/src/challenges/animated_square_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Designs',
       debugShowCheckedModeBanner: false,
-      home: HeadersPage(),
+      home: AnimatedSquarePage(),
     );
   }
 }
