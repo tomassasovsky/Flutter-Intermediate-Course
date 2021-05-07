@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SquaredHeader extends StatelessWidget {
   @override
@@ -294,5 +295,70 @@ class _WavesGradientHeaderHeaderPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
+  }
+}
+
+class IconHeader extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final List<Color> colors;
+
+  IconHeader({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    this.colors = const [Color(0xff526BF6), Color(0xff67ACF2)],
+  }) : assert(colors.length >= 2, 'There must be at least two colors');
+
+  @override
+  Widget build(BuildContext context) {
+    final Color whiteBlend = Colors.white.withOpacity(.2);
+    final Color white = Colors.white.withOpacity(.7);
+    return Stack(
+      children: [
+        _IconHeaderBackground(colors: this.colors),
+        Positioned(
+          child: FaIcon(
+            this.icon,
+            size: 250,
+            color: whiteBlend,
+          ),
+          top: -50,
+          left: -70,
+        ),
+        Column(
+          children: [
+            SizedBox(height: 80, width: double.infinity),
+            Text(this.subtitle, style: TextStyle(fontSize: 20, color: white)),
+            Text(this.title, style: TextStyle(fontSize: 25, color: white, fontWeight: FontWeight.bold)),
+            SizedBox(height: 20, width: double.infinity),
+            FaIcon(this.icon, size: 80, color: white),
+          ],
+        )
+      ],
+    );
+  }
+}
+
+class _IconHeaderBackground extends StatelessWidget {
+  const _IconHeaderBackground({Key? key, required this.colors}) : super(key: key);
+
+  final List<Color> colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 260,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(80)),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: this.colors,
+        ),
+      ),
+    );
   }
 }
