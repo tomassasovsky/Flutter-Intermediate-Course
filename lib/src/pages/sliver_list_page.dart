@@ -1,4 +1,6 @@
+import 'package:designs/src/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SliverListPage extends StatelessWidget {
   @override
@@ -22,13 +24,15 @@ class _ButtonNewList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Provider.of<ThemeChanger>(context);
+
     return Container(
       width: size.width * 0.9,
       height: 100,
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
-          primary: Color(0xffed6762),
+          primary: theme.darkTheme ? theme.currentTheme.colorScheme.secondary : Color(0xffed6762),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(50),
@@ -38,7 +42,7 @@ class _ButtonNewList extends StatelessWidget {
         child: Text(
           'CREATE NEW LIST',
           style: TextStyle(
-            color: Colors.white,
+            color: theme.currentTheme.scaffoldBackgroundColor,
             fontSize: 18,
             fontWeight: FontWeight.bold,
             letterSpacing: 3,
@@ -52,6 +56,8 @@ class _ButtonNewList extends StatelessWidget {
 class _MainScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<ThemeChanger>(context);
+
     final list = [
       _ListItem('Orange', Color(0xffF08F66)),
       _ListItem('Family', Color(0xffF2A38A)),
@@ -81,7 +87,7 @@ class _MainScroll extends StatelessWidget {
               maxHeight: 200,
               child: Container(
                 alignment: Alignment.centerLeft,
-                color: Colors.white,
+                color: theme.currentTheme.scaffoldBackgroundColor,
                 child: _Header(),
               )),
         ),
@@ -127,13 +133,18 @@ class _SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<ThemeChanger>(context);
+
     return Column(
       children: [
         Container(
           margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           child: Text(
             'New',
-            style: TextStyle(color: Color(0xff532128), fontSize: 50),
+            style: TextStyle(
+              color: theme.darkTheme ? Colors.grey : Color(0xff532128),
+              fontSize: 50,
+            ),
           ),
         ),
         Stack(
@@ -144,10 +155,19 @@ class _Header extends StatelessWidget {
               child: Container(
                 width: 150,
                 height: 8,
-                color: Color(0xfff7cdd5),
+                color: theme.darkTheme ? Colors.grey : Color(0xff532128),
               ),
             ),
-            Container(child: Text('List', style: TextStyle(color: Color(0xffd93a30), fontSize: 50, fontWeight: FontWeight.bold))),
+            Container(
+              child: Text(
+                'List',
+                style: TextStyle(
+                  color: Color(0xffd93a30),
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ],
         ),
       ],
@@ -166,17 +186,24 @@ class _ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<ThemeChanger>(context);
+
     return Container(
       alignment: Alignment.centerLeft,
       padding: EdgeInsets.all(30),
       child: Text(
         this.title,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
       ),
       height: 100,
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: this.color,
+        color: theme.darkTheme ? Colors.grey : Color(0xff532128),
+        // color:  this.color,
         borderRadius: BorderRadius.circular(30),
       ),
     );

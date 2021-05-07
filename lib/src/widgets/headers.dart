@@ -193,25 +193,33 @@ class _CurvedHeaderPainter extends CustomPainter {
 }
 
 class WavesHeader extends StatelessWidget {
+  final Color color;
+  final bool showBottom;
+  const WavesHeader({required this.color, this.showBottom = false});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: double.infinity,
       width: double.infinity,
       child: CustomPaint(
-        painter: _WavesHeaderPainter(),
+        painter: _WavesHeaderPainter(color: this.color, showBottom: this.showBottom),
       ),
     );
   }
 }
 
 class _WavesHeaderPainter extends CustomPainter {
+  final Color color;
+  final bool showBottom;
+  const _WavesHeaderPainter({required this.color, required this.showBottom});
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint();
 
     // properties
-    paint.color = Color(0xff615aab);
+    paint.color = this.color; // Color(0xff615aab);
     // paint.style = PaintingStyle.stroke;
     paint.style = PaintingStyle.fill;
     paint.strokeWidth = 5;
@@ -225,12 +233,13 @@ class _WavesHeaderPainter extends CustomPainter {
     path.quadraticBezierTo(size.width * .75, size.height * .2, size.width, size.height * .25);
     path.lineTo(size.width, 0);
 
-    path2.moveTo(0, size.height);
-    path2.lineTo(0, size.height * .75);
-    path2.quadraticBezierTo(size.width * .25, size.height * .8, size.width * .5, size.height * .75);
-    path2.quadraticBezierTo(size.width * .75, size.height * .7, size.width, size.height * .75);
-    path2.lineTo(size.width, size.height);
-
+    if (showBottom) {
+      path2.moveTo(0, size.height);
+      path2.lineTo(0, size.height * .75);
+      path2.quadraticBezierTo(size.width * .25, size.height * .8, size.width * .5, size.height * .75);
+      path2.quadraticBezierTo(size.width * .75, size.height * .7, size.width, size.height * .75);
+      path2.lineTo(size.width, size.height);
+    }
     canvas.drawPath(path, paint);
     canvas.drawPath(path2, paint);
   }

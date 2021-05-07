@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-class AnimationsPage extends StatelessWidget {
+class AnimatedRectanglePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

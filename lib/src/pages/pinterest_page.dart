@@ -1,7 +1,9 @@
-import 'package:designs/src/widgets/pinterest_menu.dart';
+import 'package:designs/src/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
+import 'package:designs/src/widgets/pinterest_menu.dart';
 
 class PinterestPage extends StatelessWidget {
   @override
@@ -25,6 +27,7 @@ class _PinterestMenuLocated extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final show = Provider.of<_MenuModel>(context).show;
+    final theme = Provider.of<ThemeChanger>(context).currentTheme;
 
     return Positioned(
       bottom: 30,
@@ -32,6 +35,8 @@ class _PinterestMenuLocated extends StatelessWidget {
       child: Container(
         alignment: Alignment.bottomCenter,
         child: PinterestMenu(
+          backgroundColor: theme.scaffoldBackgroundColor,
+          activeColor: theme.colorScheme.secondary,
           items: [
             PinterestButton(icon: Icons.pie_chart, onPressed: () {}),
             PinterestButton(icon: Icons.search, onPressed: () {}),
