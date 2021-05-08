@@ -6,16 +6,22 @@ class ThemeChanger with ChangeNotifier {
       case 1:
         _darkTheme = false;
         _customTheme = false;
-        _currentTheme = ThemeData.light();
+        _currentTheme = light;
         return;
       case 2:
         _darkTheme = true;
         _customTheme = false;
-        _currentTheme = ThemeData.dark();
+        _currentTheme = dark;
         return;
       case 3:
         _customTheme = true;
         _darkTheme = false;
+        _currentTheme = lightcustom;
+        return;
+      case 4:
+        _customTheme = true;
+        _darkTheme = true;
+        _currentTheme = darkcustom;
         return;
       default:
         throw Exception('No theme was selected');
@@ -25,7 +31,7 @@ class ThemeChanger with ChangeNotifier {
   bool _darkTheme = false;
   bool _customTheme = false;
 
-  late ThemeData _currentTheme = ThemeData.light();
+  late ThemeData _currentTheme;
 
   bool get darkTheme => this._darkTheme;
   bool get customTheme => this._customTheme;
@@ -34,31 +40,16 @@ class ThemeChanger with ChangeNotifier {
   set darkTheme(bool value) {
     _darkTheme = value;
 
-    if (_customTheme) {
-      if (value)
-        _currentTheme = ThemeData.dark().copyWith(
-          colorScheme: ColorScheme.dark().copyWith(
-            secondary: Color(0xff48a0eb),
-          ),
-          primaryColorLight: Colors.white,
-          scaffoldBackgroundColor: Color(0xff16202b),
-          textTheme: TextTheme(
-            bodyText2: TextStyle(color: Colors.white),
-          ),
-        );
+    if (_darkTheme) {
+      if (_customTheme)
+        _currentTheme = darkcustom;
       else
-        _currentTheme = ThemeData.light().copyWith(
-          colorScheme: ColorScheme.dark().copyWith(
-            secondary: Colors.purple,
-          ),
-          primaryColorLight: Colors.black,
-          scaffoldBackgroundColor: Colors.white,
-        );
+        _currentTheme = dark;
     } else {
-      if (value)
-        _currentTheme = ThemeData.dark();
+      if (_customTheme)
+        _currentTheme = lightcustom;
       else
-        _currentTheme = ThemeData.light();
+        _currentTheme = light;
     }
     notifyListeners();
   }
@@ -67,31 +58,47 @@ class ThemeChanger with ChangeNotifier {
     _customTheme = value;
 
     if (_darkTheme) {
-      if (value)
-        _currentTheme = ThemeData.dark().copyWith(
-          colorScheme: ColorScheme.dark().copyWith(
-            secondary: Color(0xff48a0eb),
-          ),
-          primaryColorLight: Colors.white,
-          scaffoldBackgroundColor: Color(0xff16202b),
-          textTheme: TextTheme(
-            bodyText2: TextStyle(color: Colors.white),
-          ),
-        );
+      if (_customTheme)
+        _currentTheme = darkcustom;
       else
-        _currentTheme = ThemeData.dark();
+        _currentTheme = dark;
     } else {
-      if (value)
-        _currentTheme = ThemeData.light().copyWith(
-          colorScheme: ColorScheme.light().copyWith(
-            secondary: Colors.purple,
-          ),
-          primaryColorLight: Colors.black,
-          scaffoldBackgroundColor: Colors.white,
-        );
+      if (customTheme)
+        _currentTheme = lightcustom;
       else
-        _currentTheme = ThemeData.light();
+        _currentTheme = light;
     }
     notifyListeners();
   }
 }
+
+final darkcustom = ThemeData.dark().copyWith(
+  colorScheme: ColorScheme.dark().copyWith(
+    secondary: Color(0xff48a0eb),
+  ),
+  primaryColorLight: Colors.white,
+  scaffoldBackgroundColor: Color(0xff16202b),
+  // textTheme: TextTheme(
+  //   bodyText2: TextStyle(color: Colors.white),
+  // ),
+);
+
+final lightcustom = ThemeData.light().copyWith(
+  colorScheme: ColorScheme.light().copyWith(
+    secondary: Color(0xff48a0eb),
+  ),
+  primaryColorLight: Colors.black,
+  scaffoldBackgroundColor: Colors.white,
+);
+
+final dark = ThemeData.dark().copyWith(
+  colorScheme: ColorScheme.dark().copyWith(
+    secondary: Colors.pink,
+  ),
+);
+
+final light = ThemeData.light().copyWith(
+  colorScheme: ColorScheme.light().copyWith(
+    secondary: Colors.pink,
+  ),
+);

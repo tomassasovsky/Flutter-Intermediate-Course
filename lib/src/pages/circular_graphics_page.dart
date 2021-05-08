@@ -30,17 +30,17 @@ class _CircularGraphicsPageState extends State<CircularGraphicsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomRadialProgress(percentage: percentage, color: Colors.blue),
+                CustomRadialProgress(percentage: percentage * 1.4, color: Colors.blue),
                 CustomRadialProgress(percentage: percentage * 1.2, color: Colors.red),
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomRadialProgress(percentage: percentage * 1.4, color: Colors.pink),
-                CustomRadialProgress(percentage: percentage * 1.6, color: Colors.purple),
+                CustomRadialProgress(percentage: percentage * 1.4, color: Colors.purple),
               ],
             ),
           ],
@@ -64,8 +64,9 @@ class CustomRadialProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Provider.of<ThemeChanger>(context).currentTheme;
     return Container(
-      height: MediaQuery.of(context).size.width / 2 - 20,
-      width: MediaQuery.of(context).size.width / 2 - 20,
+      margin: EdgeInsets.all(20),
+      height: 180,
+      width: 180,
       child: RadialProgress(
         percentage: percentage,
         primaryColor: this.color,

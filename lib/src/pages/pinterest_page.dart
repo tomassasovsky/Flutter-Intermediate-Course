@@ -25,25 +25,34 @@ class PinterestPage extends StatelessWidget {
 class _PinterestMenuLocated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     final show = Provider.of<_MenuModel>(context).show;
     final theme = Provider.of<ThemeChanger>(context).currentTheme;
+    double width = MediaQuery.of(context).size.width;
+
+    if (width > 500) {
+      width = width - 300;
+    }
 
     return Positioned(
       bottom: 30,
-      width: size.width,
       child: Container(
-        alignment: Alignment.bottomCenter,
-        child: PinterestMenu(
-          backgroundColor: theme.scaffoldBackgroundColor,
-          activeColor: theme.colorScheme.secondary,
-          items: [
-            PinterestButton(icon: Icons.pie_chart, onPressed: () {}),
-            PinterestButton(icon: Icons.search, onPressed: () {}),
-            PinterestButton(icon: Icons.notifications, onPressed: () {}),
-            PinterestButton(icon: Icons.supervised_user_circle, onPressed: () {}),
+        width: width,
+        child: Row(
+          children: [
+            Spacer(),
+            PinterestMenu(
+              backgroundColor: theme.scaffoldBackgroundColor,
+              activeColor: theme.colorScheme.secondary,
+              show: show,
+              items: [
+                PinterestButton(icon: Icons.pie_chart, onPressed: () {}),
+                PinterestButton(icon: Icons.search, onPressed: () {}),
+                PinterestButton(icon: Icons.notifications, onPressed: () {}),
+                PinterestButton(icon: Icons.supervised_user_circle, onPressed: () {}),
+              ],
+            ),
+            Spacer(),
           ],
-          show: show,
         ),
       ),
     );
@@ -81,19 +90,27 @@ class _PinterestGridState extends State<PinterestGrid> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLarge = MediaQuery.of(context).size.height > 500;
+    int count = isLarge ? 3 : 2;
     return Container(
       margin: EdgeInsets.all(5),
-      child: StaggeredGridView.countBuilder(
+      child: Scrollbar(
+        thickness: 10,
+        isAlwaysShown: true,
+        interactive: true,
         controller: controller,
-        physics: BouncingScrollPhysics(),
-        crossAxisCount: 4,
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _PinterestItem(index);
-        },
-        staggeredTileBuilder: (int index) => StaggeredTile.count(2, index.isEven ? 2 : 1),
-        mainAxisSpacing: 4.0,
-        crossAxisSpacing: 4.0,
+        child: StaggeredGridView.countBuilder(
+          controller: controller,
+          physics: BouncingScrollPhysics(),
+          crossAxisCount: count,
+          itemCount: items.length,
+          itemBuilder: (BuildContext context, int index) {
+            return _PinterestItem(index);
+          },
+          staggeredTileBuilder: (int index) => StaggeredTile.count(1, index.isEven ? 1 : 2),
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
+        ),
       ),
     );
   }

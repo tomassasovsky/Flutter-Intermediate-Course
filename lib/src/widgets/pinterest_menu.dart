@@ -51,8 +51,8 @@ class _PinterestMenuBackground extends StatelessWidget {
 
     return Container(
       child: child,
-      width: MediaQuery.of(context).size.width * .6,
-      height: 55,
+      width: 250,
+      height: 60,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.all(Radius.circular(100)),

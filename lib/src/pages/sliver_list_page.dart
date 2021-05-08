@@ -54,6 +54,7 @@ class _ButtonNewList extends StatelessWidget {
 }
 
 class _MainScroll extends StatelessWidget {
+  final ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     final theme = Provider.of<ThemeChanger>(context);
@@ -77,27 +78,34 @@ class _MainScroll extends StatelessWidget {
       _ListItem('Books', Color(0xffFCEBAF)),
     ];
 
-    return CustomScrollView(
-      physics: BouncingScrollPhysics(),
-      slivers: [
-        SliverPersistentHeader(
-          floating: true,
-          delegate: _SliverCustomHeaderDelegate(
-              minHeight: 170,
-              maxHeight: 200,
-              child: Container(
-                alignment: Alignment.centerLeft,
-                color: theme.currentTheme.scaffoldBackgroundColor,
-                child: _Header(),
-              )),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            ...list,
-            SizedBox(height: 100),
-          ]),
-        ),
-      ],
+    return Scrollbar(
+      controller: controller,
+      isAlwaysShown: true,
+      interactive: true,
+      thickness: 10,
+      child: CustomScrollView(
+        controller: controller,
+        physics: BouncingScrollPhysics(),
+        slivers: [
+          SliverPersistentHeader(
+            floating: true,
+            delegate: _SliverCustomHeaderDelegate(
+                minHeight: 170,
+                maxHeight: 200,
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  color: theme.currentTheme.scaffoldBackgroundColor,
+                  child: _Header(),
+                )),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              ...list,
+              SizedBox(height: 100),
+            ]),
+          ),
+        ],
+      ),
     );
   }
 }
